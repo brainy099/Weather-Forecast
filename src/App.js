@@ -17,7 +17,7 @@ function App() {
 
   const fetchData = async searchTerm => {
     const appId = "dedac1795a0a6d2c21830336fa5edc8b";
-    let url = `http://api.openweathermap.org/data/2.5/forecast?q=${searchTerm}&appid=${appId}&units=metric`;
+    let url = `https://api.openweathermap.org/data/2.5/forecast?q=${searchTerm}&appid=${appId}&units=metric`;
     let req = new Request(url, {
       method: "get"
     });
