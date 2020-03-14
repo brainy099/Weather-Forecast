@@ -23,6 +23,8 @@ function App() {
     });
     //fetch call
     try {
+      setDates([]);
+      setTemps([]);
       let response = await fetch(req);
       let data = await response.json();
       await setWeather(data);
@@ -41,7 +43,7 @@ function App() {
   }
 
   return (
-    <div>
+    <div className="wrapper">
       <h1>Weather</h1>
       <form onSubmit={handleSubmit}>
         <label>
@@ -58,7 +60,12 @@ function App() {
         <span className="temp">{currentTemp}</span>
         <span className="temp-symbol">°C</span>
       </p>
-      <PlotComponent xData={dates} yData={temps} type="scatter" />
+      <PlotComponent
+        className="graph"
+        xData={dates}
+        yData={temps}
+        type="scatter"
+      />
     </div>
   );
 }
