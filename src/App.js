@@ -5,6 +5,8 @@ import PlotComponent from "./components/Plot.component";
 function App() {
   const [location, setLocation] = useState("");
   const [weather, setWeather] = useState({});
+  const [dates, setDates] = useState([]);
+  const [temps, setTemps] = useState([]);
 
   const handleSubmit = event => {
     event.preventDefault();
@@ -24,7 +26,10 @@ function App() {
       let response = await fetch(req);
       let data = await response.json();
       await setWeather(data);
-      console.log(data);
+      await data.list.map(val => {
+        setDates(oldDates => [...oldDates, val.dt_txt]);
+        setTemps(oldTemp => [...oldTemp, val.main.temp]);
+      });
     } catch (error) {
       console.log(error);
     }
@@ -53,11 +58,7 @@ function App() {
         <span className="temp">{currentTemp}</span>
         <span className="temp-symbol">°C</span>
       </p>
-      <PlotComponent
-        xData={[1, 2, 3, 4, 5]}
-        yData={[1, 4, 9, 16, 25]}
-        type="scatter"
-      />
+      <PlotComponent xData={dates} yData={temps} type="scatter" />
     </div>
   );
 }
