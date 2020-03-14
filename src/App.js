@@ -55,6 +55,7 @@ function App() {
             type="text"
           />
         </label>
+        <button type="submit">submit</button>
       </form>
       <p className="temp-wrapper">
         <span className="temp">{currentTemp}</span>
