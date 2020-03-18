@@ -1,15 +1,30 @@
-import React, { useState } from "react";
+import React from "react";
 import "./App.css";
 import PlotComponent from "./components/Plot.component";
+import {
+  setDates,
+  setLocation,
+  setWeather,
+  setTemps,
+  pushToTemps,
+  pushToDates
+} from "./redux/actions";
+import { connect } from "react-redux";
 
-function App() {
-  const [location, setLocation] = useState("");
-  const [weather, setWeather] = useState({});
-  const [dates, setDates] = useState([]);
-  const [temps, setTemps] = useState([]);
+const App = ({
+  state,
+  setLocation,
+  setWeather,
+  setTemps,
+  setDates,
+  pushToDates,
+  pushToTemps
+}) => {
+  const { location, weather, dates, temps } = state;
 
   const handleSubmit = event => {
     event.preventDefault();
+
     fetchData(location);
   };
 
@@ -28,9 +43,9 @@ function App() {
       let response = await fetch(req);
       let data = await response.json();
       await setWeather(data);
-      await data.list.map(val => {
-        setDates(oldDates => [...oldDates, val.dt_txt]);
-        setTemps(oldTemp => [...oldTemp, val.main.temp]);
+      await data.list.forEach(val => {
+        pushToDates(val.dt_txt);
+        pushToTemps(val.main.temp);
       });
     } catch (error) {
       console.log(error);
@@ -69,6 +84,21 @@ function App() {
       />
     </div>
   );
-}
+};
 
-export default App;
+const mapDispatchToProps = dispatch => ({
+  setLocation: item => dispatch(setLocation(item)),
+  setWeather: item => dispatch(setWeather(item)),
+  setTemps: item => dispatch(setTemps(item)),
+  setDates: item => dispatch(setDates(item)),
+  pushToDates: item => dispatch(pushToDates(item)),
+  pushToTemps: item => dispatch(pushToTemps(item))
+});
+
+const mapStateToProps = state => {
+  return {
+    state: state
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(App);
