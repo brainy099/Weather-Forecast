@@ -24,3 +24,8 @@ Copy the following code on your command line:
  npm install
  npm start
 ```
+
+**You will have to insert your own OpenWeatherMap API key into the thunk action**
+
+- navigate to _./src/redux/actions.js_
+- copy your API key and paste it on the appId constant
