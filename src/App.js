@@ -4,19 +4,17 @@ import PlotComponent from "./components/Plot.component";
 import { setLocation, fetchData } from "./redux/actions";
 import { connect } from "react-redux";
 
-const App = ({ state, setLocation, fetchData }) => {
-  const { location, weather, dates, temps } = state;
-
+const App = ({ redux, setLocation, fetchData }) => {
   const handleSubmit = event => {
     event.preventDefault();
-    fetchData(location);
+    fetchData(redux.get("location"));
   };
 
   const handleChange = event => setLocation(event.target.value);
 
   let currentTemp = "Specify a location";
-  if (weather.list) {
-    currentTemp = weather.list[0].main.temp;
+  if (redux.getIn(["weather", "list"])) {
+    currentTemp = redux.getIn(["weather", "list", "0", "main", "temp"]);
   }
 
   return (
@@ -28,7 +26,7 @@ const App = ({ state, setLocation, fetchData }) => {
           <input
             onChange={handleChange}
             placeholder={"city, country"}
-            value={location}
+            value={redux.get("location")}
             type="text"
           />
         </label>
@@ -40,8 +38,8 @@ const App = ({ state, setLocation, fetchData }) => {
       </p>
       <PlotComponent
         className="graph"
-        xData={dates}
-        yData={temps}
+        xData={redux.get("dates")}
+        yData={redux.get("temps")}
         type="scatter"
       />
     </div>
@@ -54,7 +52,7 @@ const mapDispatchToProps = dispatch => ({
 });
 
 const mapStateToProps = state => ({
-  state: state
+  redux: state
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);

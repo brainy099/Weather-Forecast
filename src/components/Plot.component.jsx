@@ -8,8 +8,8 @@ const PlotComponent = props => {
     <Plot
       data={[
         {
-          x: props.xData,
-          y: props.yData,
+          x: props.xData.toJS(),
+          y: props.yData.toJS(),
           type: props.type
         },
         {
