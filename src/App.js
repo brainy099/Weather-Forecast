@@ -1,56 +1,18 @@
 import React from "react";
 import "./App.css";
 import PlotComponent from "./components/Plot.component";
-import {
-  setDates,
-  setLocation,
-  setWeather,
-  setTemps,
-  pushToTemps,
-  pushToDates
-} from "./redux/actions";
+import { setLocation, fetchData } from "./redux/actions";
 import { connect } from "react-redux";
 
-const App = ({
-  state,
-  setLocation,
-  setWeather,
-  setTemps,
-  setDates,
-  pushToDates,
-  pushToTemps
-}) => {
+const App = ({ state, setLocation, fetchData }) => {
   const { location, weather, dates, temps } = state;
 
   const handleSubmit = event => {
     event.preventDefault();
-
     fetchData(location);
   };
 
   const handleChange = event => setLocation(event.target.value);
-
-  const fetchData = async searchTerm => {
-    const appId = "dedac1795a0a6d2c21830336fa5edc8b";
-    let url = `https://api.openweathermap.org/data/2.5/forecast?q=${searchTerm}&appid=${appId}&units=metric`;
-    let req = new Request(url, {
-      method: "get"
-    });
-    //fetch call
-    try {
-      setDates([]);
-      setTemps([]);
-      let response = await fetch(req);
-      let data = await response.json();
-      await setWeather(data);
-      await data.list.forEach(val => {
-        pushToDates(val.dt_txt);
-        pushToTemps(val.main.temp);
-      });
-    } catch (error) {
-      console.log(error);
-    }
-  };
 
   let currentTemp = "Specify a location";
   if (weather.list) {
@@ -88,17 +50,11 @@ const App = ({
 
 const mapDispatchToProps = dispatch => ({
   setLocation: item => dispatch(setLocation(item)),
-  setWeather: item => dispatch(setWeather(item)),
-  setTemps: item => dispatch(setTemps(item)),
-  setDates: item => dispatch(setDates(item)),
-  pushToDates: item => dispatch(pushToDates(item)),
-  pushToTemps: item => dispatch(pushToTemps(item))
+  fetchData: item => dispatch(fetchData(item))
 });
 
-const mapStateToProps = state => {
-  return {
-    state: state
-  };
-};
+const mapStateToProps = state => ({
+  state: state
+});
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);

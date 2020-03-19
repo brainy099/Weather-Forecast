@@ -17,10 +17,6 @@ export const reducer = (state = INITIAL_STATE, action) => {
       return { ...state, temps: action.payload };
     case actionTypes.SET_DATES:
       return { ...state, dates: action.payload };
-    case actionTypes.PUSH_TO_TEMPS:
-      return { ...state, temps: [...state.temps, action.payload] };
-    case actionTypes.PUSH_TO_DATES:
-      return { ...state, dates: [...state.dates, action.payload] };
     default:
       return state;
   }
