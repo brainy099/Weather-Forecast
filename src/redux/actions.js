@@ -21,7 +21,10 @@ export const setDates = item => ({
 });
 
 export const fetchData = searchTerm => async dispatch => {
-  const appId = "dedac1795a0a6d2c21830336fa5edc8b";
+  ////
+  ///INSERT YOUR OWN OPENWEATHERMAP API KEY
+  const appId = "";
+  ////
   let url = `https://api.openweathermap.org/data/2.5/forecast?q=${searchTerm}&appid=${appId}&units=metric`;
   let req = new Request(url, {
     method: "get"
