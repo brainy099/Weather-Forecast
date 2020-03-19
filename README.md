@@ -1,4 +1,4 @@
-#Weather Forecast App
+## Weather Forecast App
 
 > An App to to see the current weather of a location and the predicted foreacst for the upcoming days
 > Tools used :
